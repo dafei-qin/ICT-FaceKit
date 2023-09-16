@@ -97,7 +97,7 @@ class ICT_model():
 
 if __name__ == '__main__':
 
-    ict_model = ICT_model.load(2)
+    ict_model = ICT_model.load(1)
     # code = np.zeros((1, 53))
     # v = ict_model.deform(code)
      # code = np.zeros((16, 53))    
