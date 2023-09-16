@@ -85,14 +85,12 @@ class ICT_model():
             load_name = './third_party/ICT-FaceKit/11089.pkl'
         elif decimate == 2:
             load_name = './third_party/ICT-FaceKit/3694.pkl'
-        elif decimate == 0:
-            load_name = './third_party/ICT-FaceKit/11248.pkl'
         else:
-            logging.error(f'Only support decimate level in [0, 1, 2], but found {decimate}')
+            logging.error(f'Only support decimate level in [1, 2], but found {decimate}')
             raise NotImplementedError
         obj = self.__new__(self)
         self.code = np.zeros((1,153))
-        obj.faces, obj.vertices, obj.identity_weights, obj.expression_weights, obj.weights, obj.identity_names, obj.expression_names = pickle.load(open(load_name, 'rb')).values()
+        obj.faces, obj.vertices, obj.identity_weights, obj.expression_weights, obj.weights, obj.identity_names, obj.expression_names = pickle.load(open(load_name, 'rb'))
         obj.vertices *= 0.1
         return obj
 
@@ -100,11 +98,14 @@ class ICT_model():
 if __name__ == '__main__':
 
     ict_model = ICT_model.load(2)
-    code = np.zeros((16, 53))
-    code[:, 10] = 0.5
-    vs = ict_model.deform(code)
-    for idx, v in enumerate(vs):
-        trimesh.Trimesh(v, ict_model.faces).export(f'./test_{idx:02d}.obj') 
+    # code = np.zeros((1, 53))
+    # v = ict_model.deform(code)
+     # code = np.zeros((16, 53))    
+    # code[:, 10] = 0.5
+    # vs = ict_model.deform(code)
+    # for idx, v in enumerate(vs):
+    #     trimesh.Trimesh(v, ict_model.faces).export(f'./test_{idx:02d}.obj') 
+    trimesh.Trimesh(ict_model.vertices, ict_model.faces, process=False).export('./test.obj')
 
 
     
